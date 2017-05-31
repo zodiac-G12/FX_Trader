@@ -58,7 +58,7 @@ loop do
       dead(bid) if @have[1] != 0# ホントのデッドクロス
     elsif ask < twoSigma(a[90..99])[0] && ask < twoSigma(a[50..99])[0]
       golden(ask, bid)
-    elsif bid > twoSigma(a[90..99])[1] && bid > twoSigma(a[50..99])[0]
+    elsif bid > twoSigma(a[90..99])[1] && bid > twoSigma(a[50..99])[1]
       dead(bid) if @have[1] != 0
     end
   end
