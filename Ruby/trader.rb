@@ -10,10 +10,10 @@ require "./zodi-math"
 
 url = 'https://info.finance.yahoo.co.jp/fx/detail/?code=USDJPY=FX'
 a = Array.new
-m10_0 = 0
-m50_0 = 0
 m10_1 = 0
 m50_1 = 0
+m10_2 = 0
+m50_2 = 0
 
 @money = 10000
 @have = [0, 0]
