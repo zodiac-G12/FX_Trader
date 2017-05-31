@@ -43,7 +43,7 @@ loop do
   doc = Nokogiri::HTML(open(url))
   bid = doc.xpath("//*[@id='USDJPY_detail_bid']").text.to_f
   ask = doc.xpath("//*[@id='USDJPY_detail_ask']").text.to_f
-  a << [bid, ask]
+  a << ask
   if a.size > 100
     a.shift
     m10_0 = m10_1
