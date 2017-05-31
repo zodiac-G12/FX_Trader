@@ -13,7 +13,7 @@ a = Array.new
 m10_0 = 0
 m50_0 = 0
 m10_1 = 0
-m10_2 = 0
+m50_1 = 0
 
 @money = 10000
 @have = [0, 0]
@@ -22,8 +22,11 @@ def fileprint(value, str, kuchi, totalprice, money, money_)
   File.open("trade_log.txt", "w").puts("#{str}:\n#{value} * #{kuchi}口 = #{totalprice},\n#{money} => #{money_}\n")
 end
 
-def golden(ask)
+def golden(ask, bid)
   puts "Ask."
+  if @have[1] != 0
+    dead(bid)
+  end
   p @have = [ask, @money.div(ask)]
   fileprint(ask, "買い", @have[1], ask*@have[1], @money, @money-ask*@have[1])
   @money -= ask * @have[1]
@@ -33,6 +36,7 @@ def dead(bid)
   fileprint(bid, "売り", @have[1], bid*have[1], @money, @money+@have[1]*bid)
   puts "Bid."
   p @money += @have[1] * bid
+  @have = [0, 0]
 end
 
 loop do
@@ -45,18 +49,19 @@ loop do
     m10_0 = m10_1
     m50_0 = m50_1
     m10_1 = m10_2
-    m50_1 = m10_2
+    m50_1 = m50_2
     m10_2 = mean(a[90..99])
     m50_2 = mean(a[50..99])
     if m10_0 < m50_0 && m10_1 > m50_1 && m50_0 < m50_1 && m50_1 < m50_2
-      golden(ask) # ホントのゴールデンクロス
+      golden(ask, bid) # ホントのゴールデンクロス
     elsif m10_0 > m50_0 && m10_1 < m50_1 && m50_0 > m50_1 && m50_1 > m50_2
-      dead(bid) # ホントのデッドクロス
+      dead(bid) if @have[1] != 0# ホントのデッドクロス
     elsif ask < twoSigma(a[90..99])[0] && ask < twoSigma(a[50..99])[0]
-      golden(ask)
+      golden(ask, bid)
     elsif bid > twoSigma(a[90..99])[1] && bid > twoSigma(a[50..99])[0]
-      dead(bid)
+      dead(bid) if @have[1] != 0
     end
   end
+  (puts "Game Over."; break) if @money < 200 && @have[1] == 0
   sleep 3
 end
