@@ -15,4 +15,5 @@ end
 def twoSigma(*array)
   inf = mean(array) - stdDiv(array)*2
   sup = mean(array) + stdDiv(array)*2
+  return [inf, sup]
 end
