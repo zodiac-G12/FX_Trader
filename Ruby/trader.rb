@@ -63,5 +63,5 @@ loop do
     end
   end
   (puts "Game Over."; break) if @money < 200 && @have[1] == 0
-  sleep 3
+  #sleep 3
 end
