@@ -15,7 +15,8 @@ m50_1 = 0
 m10_2 = 0
 m50_2 = 0
 
-@money = 10000
+puts "初期投資(yen):"
+@money = gets.to_i
 @have = [0, 0]
 
 def fileprint(value, str, kuchi, totalprice, money, money_)
@@ -55,11 +56,15 @@ loop do
     if m10_0 < m50_0 && m10_1 > m50_1 && m50_0 < m50_1 && m50_1 < m50_2
       golden(ask, bid) # ホントのゴールデンクロス
     elsif m10_0 > m50_0 && m10_1 < m50_1 && m50_0 > m50_1 && m50_1 > m50_2
-      dead(bid) if @have[1] != 0# ホントのデッドクロス
+      dead(bid) if @have[1] != 0 # ホントのデッドクロス
     elsif ask < twoSigma(a[90..99])[0] && ask < twoSigma(a[50..99])[0]
-      golden(ask, bid)
+      golden(ask, bid) # 長期ボリンジャーバンド2と短期ボリンジャーバンド2を下に飛び出た
     elsif bid > twoSigma(a[90..99])[1] && bid > twoSigma(a[50..99])[1]
-      dead(bid) if @have[1] != 0
+      dead(bid) if @have[1] != 0 # 長期ボリンジャーバンド2と短期ボリンジャーバンド2を上に飛び出た
+    elsif ask < oneSigma(a[90..99])[0] && ask < oneSigma(a[50..99])[0]
+      golden(ask, bid) # 長期ボリンジャーバンド1と短期ボリンジャーバンド1を下に飛び出た
+    elsif bid > oneSigma(a[90..99])[1] && bid > oneSigma(a[50..99])[1]
+      dead(bid) if @have[1] != 0 # 長期ボリンジャーバンド1と短期ボリンジャーバンド1を上に飛び出た
     end
   end
   (puts "Game Over."; break) if @money < 200 && @have[1] == 0
