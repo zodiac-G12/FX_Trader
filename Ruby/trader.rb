@@ -33,7 +33,7 @@ def golden(ask, bid)
 end
 
 def dead(bid)
-  fileprint(bid, "売り", @have[1], bid*have[1], @money, @money+@have[1]*bid)
+  fileprint(bid, "売り", @have[1], bid*@have[1], @money, @money+@have[1]*bid)
   puts "Bid."
   p @money += @have[1] * bid
   @have = [0, 0]
