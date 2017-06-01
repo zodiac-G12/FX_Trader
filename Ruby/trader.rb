@@ -20,23 +20,21 @@ puts "初期投資(yen):"
 @have = [0, 0]
 
 def fileprint(value, str, kuchi, totalprice, money, money_)
-  File.open("trade_log.txt", "w").puts("#{str}:\n#{value} * #{kuchi}口 = #{totalprice},\n#{money} => #{money_}\n")
+  p File.open("trade_log.txt", "w").puts("[#{Time.now}]/#{str}:\n#{value} * #{kuchi}口 = #{totalprice},\n#{money} => #{money_}\n")
 end
 
 def golden(ask, bid)
-  puts "Ask."
   if @have[1] != 0
     dead(bid)
   end
-  p @have = [ask, @money.div(ask)]
+  @have = [ask, @money.div(ask)]
   fileprint(ask, "買い", @have[1], ask*@have[1], @money, @money-ask*@have[1])
   @money -= ask * @have[1]
 end
 
 def dead(bid)
   fileprint(bid, "売り", @have[1], bid*@have[1], @money, @money+@have[1]*bid)
-  puts "Bid."
-  p @money += @have[1] * bid
+  @money += @have[1] * bid
   @have = [0, 0]
 end
 
