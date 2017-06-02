@@ -59,10 +59,6 @@ loop do
       golden(ask, bid) # 長期ボリンジャーバンド2と短期ボリンジャーバンド2を下に飛び出た
     elsif bid > twoSigma(a[900..999])[1] && bid > twoSigma(a[500..999])[1]
       dead(bid) if @have[1] != 0 # 長期ボリンジャーバンド2と短期ボリンジャーバンド2を上に飛び出た
-    elsif ask < oneSigma(a[90..99])[0] && ask < oneSigma(a[50..99])[0]
-      golden(ask, bid) # 長期ボリンジャーバンド1と短期ボリンジャーバンド1を下に飛び出た
-    elsif bid > oneSigma(a[90..99])[1] && bid > oneSigma(a[50..99])[1]
-      dead(bid) if @have[1] != 0 # 長期ボリンジャーバンド1と短期ボリンジャーバンド1を上に飛び出た
     end
   end
   (puts "Game Over."; break) if @money < 200 && @have[1] == 0
