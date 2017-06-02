@@ -56,11 +56,11 @@ loop do
     elsif m10_0 > m50_0 && m10_1 < m50_1 && m50_0 > m50_1 && m50_1 > m50_2
       dead(bid) if @have[1] != 0 # ホントのデッドクロス
     elsif ask < twoSigma(a[900..999])[0] && ask < twoSigma(a[500..999])[0]
-      golden(ask, bid) # 長期ボリンジャーバンド2と短期ボリンジャーバンド2を下に飛び出た
+      golden(ask, bid) if @have[1] == 0 # 長期ボリンジャーバンド2と短期ボリンジャーバンド2を下に飛び出た
     elsif bid > twoSigma(a[900..999])[1] && bid > twoSigma(a[500..999])[1]
       dead(bid) if @have[1] != 0 # 長期ボリンジャーバンド2と短期ボリンジャーバンド2を上に飛び出た
     end
   end
   (puts "Game Over."; break) if @money < 200 && @have[1] == 0
-  #sleep 1
+  sleep 1
 end
