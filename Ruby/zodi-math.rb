@@ -3,7 +3,7 @@ def mean(array)
 end
 
 def stdDiv(array)
-  return Math::sqrt(array.inject(0.0){|sqSum, i| sqSum += i**(2.0)} / array.size)
+  return Math::sqrt(array.inject(0.0){|sqSum, i| sqSum += (i - mean(array))**(2.0)} / array.size)
 end
 
 def oneSigma(array)
