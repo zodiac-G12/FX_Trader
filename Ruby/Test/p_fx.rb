@@ -49,7 +49,7 @@ loop do
     f50 = fif.inject(:+)/50.0
     f10ten << f10
     f50ten << f50
-    if Time.now - time < 30 && flag != 0
+    if time != 0 && Time.now - time < 30 && flag != 0
       if flag == 1
         if save < value
           puts "you win!"
