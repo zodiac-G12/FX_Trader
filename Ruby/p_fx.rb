@@ -9,13 +9,16 @@ require 'open-uri'
 require "./zodi-math"
 
 url = 'https://info.finance.yahoo.co.jp/fx/detail/?code=USDJPY=FX'
-bid = ask = -1
+
+f50 = 0
+f10 = 0
+
 loop do
   doc = Nokogiri::HTML(open(url))
-  if bid != doc.xpath("//*[@id='USDJPY_detail_bid']").text.to_f || ask != doc.xpath("//*[@id='USDJPY_detail_ask']").text.to_f
-    bid = doc.xpath("//*[@id='USDJPY_detail_bid']").text.to_f
-    ask = doc.xpath("//*[@id='USDJPY_detail_ask']").text.to_f
-    puts "Bid(売値):#{bid}"
-    puts "Ask(買値):#{ask}"
+  bid = doc.xpath("//*[@id='USDJPY_detail_bid']").text.to_f
+  ask = doc.xpath("//*[@id='USDJPY_detail_ask']").text.to_f
+  puts "Bid(売値):#{bid}"
+  puts "Ask(買値):#{ask}"
+  sleep 1
   end
 end
