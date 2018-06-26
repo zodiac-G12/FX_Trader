@@ -10,7 +10,8 @@ require "./zodi-math"
 
 url = 'https://info.finance.yahoo.co.jp/fx/detail/?code=USDJPY=FX'
 
-money = 10000
+money = 15000
+pay = money/10
 f50 = 0
 f10 = 0
 f50ten = []
@@ -19,6 +20,7 @@ fif = []
 flag = 0
 save = 0
 time = 0
+p Time.now
 
 def up(a)
   if (a.size-1).times{|i| break if a[i] > a[i+1]} != nil
@@ -44,43 +46,53 @@ loop do
   #puts "Bid(売値):#{bid}"
   #puts "Ask(買値):#{ask}"
   fif << value
+  pay = money/10
   if fif.size >= 50 
     f10 = fif[40..49].inject(:+)/10.0 
     f50 = fif.inject(:+)/50.0
     f10ten << f10
     f50ten << f50
-    if time != 0 && Time.now - time < 30 && flag != 0
+    t = Time.now
+    if time != 0 && (t.hour==time[0] && t.min-time[1] > 14 || t.hour!=time[0] && t.min+60-time[1] > 14)  && flag != 0
       if flag == 1
         if save < value
           puts "you win!"
-          p money += 10000
+          p t
+          p value
+          p money += pay*2
         else
           puts "you lose..."
-          p money -= 10000
+          p t
+          p value
+          p money -= pay
         end
       else
         if save > value
           puts "you win!"
-          p money += 10000
+          p t
+          p value
+          p money += pay*2
         else
           puts "you lose..."
-          p money -= 10000
+          p t
+          p value
+          p money -= pay
         end
       end
       flag = 0
     end
-    break if money < 10000
+    break if money < 1000
     if f10 > f50 && up(f10ten) && up(f50ten) && flag == 0
       puts "buy up"
-      p Time.now
-      save = value
-      time = Time.now+15*60
+      p t = Time.now
+      p save = value
+      time = [t.hour,t.min]
       flag = 1
     elsif f10 < f50 && down(f10ten) && down(f50ten) && flag == 0
       puts "buy down"
-      p Time.now
-      save = value
-      time = Time.now+15*60
+      p t = Time.now
+      p save = value
+      time = [t.hour,t.min]
       flag = 2
     end
     if f10ten.size >= 10
@@ -89,5 +101,5 @@ loop do
     end
     fif.shift
   end
-  sleep 55
+  sleep 59
 end
