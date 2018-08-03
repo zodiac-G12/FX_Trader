@@ -10,7 +10,7 @@ require "./zodi-math"
 
 url = 'https://info.finance.yahoo.co.jp/fx/detail/?code=USDJPY=FX'
 
-money = 15000
+money = 150000
 pay = money/10
 f50 = 0
 f10 = 0
@@ -23,7 +23,9 @@ time = 0
 p Time.now
 
 def up(a)
-  if (a.size-1).times{|i| break if a[i] > a[i+1]} != nil
+  flag = 0
+  (a.size-1).times{|i| flag = 1 if a[i] > a[i+1]}
+  if flag == 1
     return 1
   else
     return 0
@@ -31,7 +33,9 @@ def up(a)
 end
 
 def down(a)
-  if (a.size-1).times{|i| break if a[i] < a[i+1]} != nil
+  flag = 0
+  (a.size-1).times{|i| flag = 1 if a[i] < a[i+1]}
+  if flag == 1
     return 1
   else
     return 0
@@ -82,16 +86,20 @@ loop do
       flag = 0
     end
     break if money < 1000
-    if f10 > f50 && up(f10ten) && up(f50ten) && flag == 0
+    if f10 > f50 && f10ten.size >= 10 && up(f10ten) && up(f50ten) && flag == 0
       puts "buy up"
       p t = Time.now
       p save = value
+      p f10ten
+      p f50ten
       time = [t.hour,t.min]
       flag = 1
-    elsif f10 < f50 && down(f10ten) && down(f50ten) && flag == 0
+    elsif f10 < f50 && f10ten.size >= 10 && down(f10ten) && down(f50ten) && flag == 0
       puts "buy down"
       p t = Time.now
       p save = value
+      p f10ten
+      p f50ten
       time = [t.hour,t.min]
       flag = 2
     end
